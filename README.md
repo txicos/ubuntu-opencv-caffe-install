@@ -36,11 +36,11 @@ Both Caffe and Dlib require boost to be installed on the system. This tutorial u
 
 
 
-```
-./bootstrap.sh --with-python-version=3.7 --with-libraries=all --prefix=/usr/local
 
-sudo ./b2 install 
-```
+    ./bootstrap.sh --with-python-version=3.7 --with-libraries=all --prefix=/usr/local
+    
+    sudo ./b2 install 
+
 
 Note: make sure to use python version installed in your machine. This tutorial is based on *version 3.7*.
 
@@ -85,8 +85,6 @@ Clone (or download) OpenCV-contrib 4.2.0:
     cd opencv_contrib
     cd ..
 
-Configure and generate the MakeFile in */opencv/build* folder
-
 Some aspects to note:
 
 - inform cmake to build debian binary  package (CPACK_BINARY_DEB) .
@@ -95,40 +93,38 @@ Some aspects to note:
 - make sure to inform where openc_contrib is located.
 - indicate where installation files will be placed. In our case it will be a local directory.
 
+Configure and generate the MakeFile in */opencv/build* folder:
 
     cd opencv
     mkdir build
-    mkdif install
-    cd build
+    mkdir install
+    cd install
     
-    cmake   -D CMAKE_VERBOSE_MAKEFILE=0N \
-            -D CMAKE_BUILD_TYPE=RELEASE \
-            -D CMAKE_INSTALL_PREFIX='$HOME'/opencv/install \
-            -D CPACK_BINARY_DEB=ON \
-            -D OPENCV_EXTRA_MODULES_PATH='$HOME'/opencv_contrib/modules \
-            -D BUILD_TIFF=ON \
-            -D WITH_FFMPEG=ON \ 
-            -D WITH_GSTREAMER=ON \
-            -D WITH_TBB=ON \
-            -D BUILD_TBB=ON \
-            -D WITH_EIGEN=ON \ 
-            -D WITH_V4L=ON \
-            -D WITH_LIBV4L=ON \
-            -D WITH_VTK=OFF \
-            -D WITH_OPENGL=OFF \
-            -D OPENCV_ENABLE_NONFREE=ON \
-            -D INSTALL_C_EXAMPLES=OFF \ 
-            -D INSTALL_PYTHON_EXAMPLES=OFF \
-            -D BUILD_NEW_PYTHON_SUPPORT=ON \ 
-            -D OPENCV_GENERATE_PKGCONFIG=ON \
-            -D BUILD_TESTS=OFF \
-            -D BUILD_EXAMPLES=OFF \
-            -D WITH_CUDA=ON \
-            -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 \
-            -D ENABLE_FAST_MATH=ON \
-            -D CUDA_FAST_MATH=ON \
-            -D WITH_CUBLAS=ON \
-            -D PYTHON3_EXECUTABLE=/usr/bin/python3.7 ..
+    cmake -D CMAKE_VERBOSE_MAKEFILE=0N
+    	-D CMAKE_BUILD_TYPE=RELEASE
+    	-D CMAKE_INSTALL_PREFIX='$HOME'/opencv/install
+    	-D CPACK_BINARY_DEB=ON
+    	-D OPENCV_EXTRA_MODULES_PATH='$HOME'/opencv_contrib/modules
+    	-D BUILD_TIFF=ON
+    	-D WITH_FFMPEG=ON \ -D WITH_GSTREAMER=ON
+    	-D WITH_TBB=ON
+    	-D BUILD_TBB=ON
+    	-D WITH_EIGEN=ON \ -D WITH_V4L=ON
+    	-D WITH_LIBV4L=ON
+    	-D WITH_VTK=OFF
+        -D WITH_OPENGL=OFF
+        -D OPENCV_ENABLE_NONFREE=ON
+        -D INSTALL_C_EXAMPLES=OFF \ -D INSTALL_PYTHON_EXAMPLES=OFF
+        -D BUILD_NEW_PYTHON_SUPPORT=ON \ -D OPENCV_GENERATE_PKGCONFIG=ON
+        -D BUILD_TESTS=OFF
+        -D BUILD_EXAMPLES=OFF
+        -D WITH_CUDA=ON
+        -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2
+        -D ENABLE_FAST_MATH=ON
+        -D CUDA_FAST_MATH=ON
+        -D WITH_CUBLAS=ON
+        -D PYTHON3_EXECUTABLE=/usr/bin/python3.7 ..
+
 
 Compile and install:
 
