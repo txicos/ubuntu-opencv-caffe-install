@@ -95,16 +95,17 @@ Some aspects to note:
 - make sure to inform where openc_contrib is located.
 - indicate where installation files will be placed. In our case it will be a local directory.
 
+
     cd opencv
     mkdir build
     mkdif install
     cd build
     
-    cmake 	-D CMAKE_VERBOSE_MAKEFILE=0N \
-    		-D CMAKE_BUILD_TYPE=RELEASE  \
-    		-D CMAKE_INSTALL_PREFIX=~/opencv/install \
+    cmake   -D CMAKE_VERBOSE_MAKEFILE=0N \
+            -D CMAKE_BUILD_TYPE=RELEASE \
+            -D CMAKE_INSTALL_PREFIX='$HOME'/opencv/install \
             -D CPACK_BINARY_DEB=ON \
-            -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+            -D OPENCV_EXTRA_MODULES_PATH='$HOME'/opencv_contrib/modules \
             -D BUILD_TIFF=ON \
             -D WITH_FFMPEG=ON \ 
             -D WITH_GSTREAMER=ON \
