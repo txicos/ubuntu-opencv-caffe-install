@@ -9,7 +9,10 @@ Usually after compiling these libraries, installation is performed using *make -
 
 ## Contents
 1. [Assumptions](README.md#1-Assumptions)
-2. [OpenCV and Contrib Modules](https://github.com/heethesh/Computer-Vision-and-Deep-Learning-Setup/blob/master/README.md#7-install-opencv-and-contrib-modules)
+
+2. [OpenCV and Contrib Modules](README.md#2. Install OpenCV and Contrib Modules)
+
+3. (Caffe)[]
 
     
 
@@ -160,4 +163,118 @@ Check python installation
 To uninstall OpenCV:
 
     sudo dpkg -r opencv-*.deb
+
+
+
+## 3. Caffe
+
+Clone (or download) Caffe:
+
+    git clone https://github.com/BVLC/caffe
+    cd caffe
+
+
+
+Edit *Makefile.config* (copy from *Mafefile.config.example*) according with the libraries installed in the system, that is, opencv4, CUDA 10.2 and python3.7
+
+```
+USE_CUDNN := 1
+OPENCV_VERSION := 4
+CUDA_DIR := /usr/local/cuda-10.2
+
+CUDA_ARCH := -gencode arch=compute_30,code=sm_30 \
+		-gencode arch=compute_35,code=sm_35 \
+		-gencode arch=compute_50,code=sm_50 \
+		-gencode arch=compute_52,code=sm_52 \
+		-gencode arch=compute_60,code=sm_60 \
+		-gencode arch=compute_61,code=sm_61 \
+		-gencode arch=compute_61,code=compute_61
+		
+BLAS := open
+
+PYTHON_LIBRARIES := boost_python37 python3.7m
+PYTHON_INCLUDE := /usr/include/python3.7m \
+                /usr/lib/python3.7/dist-packages/numpy/core/include
+ 
+ WITH_PYTHON_LAYER := 1
+ 
+INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu/hdf5/serial/
+
+# indicate build and distribution dir
+BUILD_DIR := build
+DISTRIBUTE_DIR := distribute
+
+```
+
+
+
+Some hacks on caffe source code are required in order do build with Opencv4 as indicated in pull request [#6625](https://github.com/BVLC/caffe/pull/6625/commits/7f503bd9a19758a173064e299ab9d4cac65ed60f) and related [discussion](https://github.com/BVLC/caffe/pull/6625) and replicated below:
+
+
+
+**include support to opencv4 in makefile**
+
+![caffe1](images/caffe1.png)
+
+
+
+**still in the makefile, also add flag indicating support to c+=11**
+
+![caffe2](images/caffe2.png)
+
+**fix errors on code**
+
+![caffe3](images/caffe3.png)
+
+Once above corrections are made, caffe is ready to be compiled. It is advisable to run tests to check everything is fine.
+
+```
+make clean
+make all -j$(nproc-1)
+make test -j$(nproc-1)
+make runtest -j$(nproc-1)
+
+#after that compile for python
+make pycaffe
+
+#compile cafe distribution
+make distribute
+```
+
+
+
+In order to construct the debian package, it is necessary to create installation directory structure and also write a debian package *control* file.
+
+```
+mkdir packageroot
+mkdir -p packageroot/DEBIAN
+nano packageroot/DEBIAN/CONTROL
+
+# an example of control file
+Package: caffe
+Version: 1.0.0
+Architecture: all
+Maintainer: Your Name <your.name@your.mail.com>
+Description: Custom Caffe Package
+
+mkdir -p packageroot/usr/local
+```
+
+
+
+Once directory structure is created copy `bin lib include`  dirs located in *distribute* directory to `packageroot/usr/local`
+
+then build and install debian package: 
+
+```
+dpkg-deb -b packageroot caffe_all.deb
+sudo dpkg -i caffe_all.deb
+
+# caffe does not include a package builder for python so it has to be included manually
+sudo cp -r distribute/python/caffe /usr/local/lib/python3.7/dist-packages
+
+#or else include caffe in PYTHONPATH
+export PYTHONPATH="${PYTHONPATH}:/my/path_to/caffe/distribute/python/caffe
+```
 
