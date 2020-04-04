@@ -10,7 +10,7 @@ Usually after compiling these libraries, installation is performed using *make -
 ## Contents
 1. [Assumptions](README.md#1-Assumptions)
 
-2. [OpenCV and Contrib Modules](README.md#2-Install OpenCV and Contrib Modules)
+2. [OpenCV and Contrib Modules](README.md#2-install-opencv-and-contrib-modules)
 
 3. [Caffe](README.md#3-Caffe)
 
