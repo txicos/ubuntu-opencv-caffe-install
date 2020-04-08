@@ -14,6 +14,8 @@ Usually after compiling these libraries, installation is performed using *make -
 
 3. [Caffe](README.md#3-Caffe)
 
+4. [DLIB](README.md#4-DLIB)
+
     
 
 ## 1. Assumptions
@@ -101,7 +103,7 @@ Configure and generate the MakeFile in */opencv/build* folder:
     cd opencv
     mkdir build
     mkdir install
-    cd install
+    cd build
     
     cmake -D CMAKE_VERBOSE_MAKEFILE=0N
     	-D CMAKE_BUILD_TYPE=RELEASE
@@ -109,16 +111,20 @@ Configure and generate the MakeFile in */opencv/build* folder:
     	-D CPACK_BINARY_DEB=ON
     	-D OPENCV_EXTRA_MODULES_PATH='$HOME'/opencv_contrib/modules
     	-D BUILD_TIFF=ON
-    	-D WITH_FFMPEG=ON \ -D WITH_GSTREAMER=ON
+    	-D WITH_FFMPEG=ON 
+        -D WITH_GSTREAMER=ON
     	-D WITH_TBB=ON
     	-D BUILD_TBB=ON
-    	-D WITH_EIGEN=ON \ -D WITH_V4L=ON
+    	-D WITH_EIGEN=ON 
+        -D WITH_V4L=ON
     	-D WITH_LIBV4L=ON
     	-D WITH_VTK=OFF
         -D WITH_OPENGL=OFF
         -D OPENCV_ENABLE_NONFREE=ON
-        -D INSTALL_C_EXAMPLES=OFF \ -D INSTALL_PYTHON_EXAMPLES=OFF
-        -D BUILD_NEW_PYTHON_SUPPORT=ON \ -D OPENCV_GENERATE_PKGCONFIG=ON
+        -D INSTALL_C_EXAMPLES=OFF 
+        -D INSTALL_PYTHON_EXAMPLES=OFF
+        -D BUILD_NEW_PYTHON_SUPPORT=ON 
+        -D OPENCV_GENERATE_PKGCONFIG=ON
         -D BUILD_TESTS=OFF
         -D BUILD_EXAMPLES=OFF
         -D WITH_CUDA=ON
@@ -276,5 +282,84 @@ sudo cp -r distribute/python/caffe /usr/local/lib/python3.7/dist-packages
 
 #or else include caffe in PYTHONPATH
 export PYTHONPATH="${PYTHONPATH}:/my/path_to/caffe/distribute/python/caffe
+```
+
+
+
+## 4. DLIB
+
+DLIB is, in fact, a C++ library for image processing and machine learning, but it does have a python API and some important Convolutional Neural Networks ready to be deployed with good results and can be used together with openCV. Let's use the altest version 19.19:
+
+```
+git clone https://github.com/davisking/dlib
+cd dlib
+mkdir build
+mkdir install
+```
+
+
+
+Just remember, that we are interested in making it work with CUDA 10.2 (adapat CUDA path according with your system). Passing a flag to NVCC is also required so as the compilation can proceed without error.
+
+Since it is intended to create a debian package, it will be configured to install dlib in a local directory
+
+Configure and generate the MakeFile in */opencv/build* folder:
+
+
+
+```
+cd build
+
+cmake  -D CMAKE_INSTALL_PREFIX=$HOME/dlib/install
+       -D DLIB_USE_CUDA=1 
+       -D USE_AVX_INSTRUCTIONS=1 
+       -D USE_SSE2_INSTRUCTIONS=1 
+       -D USE_SSE_INSTRUCTIONS=1 
+       -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 
+       -D CUDA_NVCC_FLAGS="--expt-relaxed-constexpr" ..
+       
+make -j$(nproc-1)
+make install
+```
+
+
+
+In order to construct the debian package, it is necessary to create installation directory structure and also write a debian package *control* file.
+
+```
+cd ..
+mkdir packageroot
+mkdir -p packageroot/DEBIAN
+nano packageroot/DEBIAN/CONTROL
+
+# an example of control file
+Package: DLIB
+Version: 19.19
+Architecture: all
+Maintainer: Your Name <your.name@your.mail.com>
+Description: Custom DLIB Package
+
+mkdir -p packageroot/usr/local
+```
+
+
+
+Once directory structure is created copy `lib include`  directories located in `install` directory to `packageroot/usr/local`
+
+then build and install debian package: 
+
+```
+dpkg-deb -b packageroot dlib.deb
+sudo dpkg -i dlib.deb
+```
+
+Once package is installed, proceed with python installation. The good thing is that the library does have a setup file, which allows to distribute a wheel package, as show below:
+
+```
+python3.7 setup.py bdist_wheel --set DLIB_USE_CUDA=1 --set USE_AVX_INSTRUCTIONS=1 --set CUDA_NVCC_FLAGS="--expt-relaxed-constexpr"
+
+#if it is desired to make a system installation. bdist_wheel creates a dist directory #under dlib.
+
+sudo pip3.7 install dist/dlib-19.19.99-cp37-cp37m-linux_x86_64.whl
 ```
 
