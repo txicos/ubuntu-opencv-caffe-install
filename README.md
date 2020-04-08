@@ -105,33 +105,33 @@ Configure and generate the MakeFile in */opencv/build* folder:
     mkdir install
     cd build
     
-    cmake -D CMAKE_VERBOSE_MAKEFILE=0N
-    	-D CMAKE_BUILD_TYPE=RELEASE
-    	-D CMAKE_INSTALL_PREFIX='$HOME'/opencv/install
-    	-D CPACK_BINARY_DEB=ON
-    	-D OPENCV_EXTRA_MODULES_PATH='$HOME'/opencv_contrib/modules
-    	-D BUILD_TIFF=ON
-    	-D WITH_FFMPEG=ON 
-        -D WITH_GSTREAMER=ON
-    	-D WITH_TBB=ON
-    	-D BUILD_TBB=ON
-    	-D WITH_EIGEN=ON 
-        -D WITH_V4L=ON
-    	-D WITH_LIBV4L=ON
-    	-D WITH_VTK=OFF
-        -D WITH_OPENGL=OFF
-        -D OPENCV_ENABLE_NONFREE=ON
-        -D INSTALL_C_EXAMPLES=OFF 
-        -D INSTALL_PYTHON_EXAMPLES=OFF
-        -D BUILD_NEW_PYTHON_SUPPORT=ON 
-        -D OPENCV_GENERATE_PKGCONFIG=ON
-        -D BUILD_TESTS=OFF
-        -D BUILD_EXAMPLES=OFF
-        -D WITH_CUDA=ON
-        -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2
-        -D ENABLE_FAST_MATH=ON
-        -D CUDA_FAST_MATH=ON
-        -D WITH_CUBLAS=ON
+    cmake -D CMAKE_VERBOSE_MAKEFILE=0N \
+        -D CMAKE_BUILD_TYPE=RELEASE \
+        -D CMAKE_INSTALL_PREFIX='$HOME'/opencv/install \
+        -D CPACK_BINARY_DEB=ON \
+        -D OPENCV_EXTRA_MODULES_PATH='$HOME'/opencv_contrib/modules \
+        -D BUILD_TIFF=ON \
+        -D WITH_FFMPEG=ON \
+        -D WITH_GSTREAMER=ON \
+        -D WITH_TBB=ON \
+        -D BUILD_TBB=ON \
+        -D WITH_EIGEN=ON \
+        -D WITH_V4L=ON \
+        -D WITH_LIBV4L=ON \
+        -D WITH_VTK=OFF \
+        -D WITH_OPENGL=OFF \
+        -D OPENCV_ENABLE_NONFREE=ON \
+        -D INSTALL_C_EXAMPLES=OFF \
+        -D INSTALL_PYTHON_EXAMPLES=OFF \
+        -D BUILD_NEW_PYTHON_SUPPORT=ON \
+        -D OPENCV_GENERATE_PKGCONFIG=ON \
+        -D BUILD_TESTS=OFF \
+        -D BUILD_EXAMPLES=OFF \
+        -D WITH_CUDA=ON \
+        -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 \
+        -D ENABLE_FAST_MATH=ON \
+        -D CUDA_FAST_MATH=ON \
+        -D WITH_CUBLAS=ON \
         -D PYTHON3_EXECUTABLE=/usr/bin/python3.7 ..
 
 
@@ -310,12 +310,12 @@ Configure and generate the MakeFile in */opencv/build* folder:
 ```
 cd build
 
-cmake  -D CMAKE_INSTALL_PREFIX=$HOME/dlib/install
-       -D DLIB_USE_CUDA=1 
-       -D USE_AVX_INSTRUCTIONS=1 
-       -D USE_SSE2_INSTRUCTIONS=1 
-       -D USE_SSE_INSTRUCTIONS=1 
-       -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 
+cmake  -D CMAKE_INSTALL_PREFIX=$HOME/dlib/install \
+       -D DLIB_USE_CUDA=1 \
+       -D USE_AVX_INSTRUCTIONS=1 \
+       -D USE_SSE2_INSTRUCTIONS=1 \
+       -D USE_SSE_INSTRUCTIONS=1 \
+       -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 \
        -D CUDA_NVCC_FLAGS="--expt-relaxed-constexpr" ..
        
 make -j$(nproc-1)
