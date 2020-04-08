@@ -356,9 +356,12 @@ sudo dpkg -i dlib.deb
 Once package is installed, proceed with python installation. The good thing is that the library does have a setup file, which allows to distribute a wheel package, as show below:
 
 ```
-python3.7 setup.py bdist_wheel --set DLIB_USE_CUDA=1 --set USE_AVX_INSTRUCTIONS=1 --set CUDA_NVCC_FLAGS="--expt-relaxed-constexpr"
+python3.7 setup.py bdist_wheel --set DLIB_USE_CUDA=1 \
+                               --set USE_AVX_INSTRUCTIONS=1 \
+                               --set CUDA_NVCC_FLAGS="--expt-relaxed-constexpr"
 
-#if it is desired to make a system installation. bdist_wheel creates a dist directory #under dlib.
+#if it is desired to make a system installation. bdist_wheel creates a dist directory \
+#under dlib.
 
 sudo pip3.7 install dist/dlib-19.19.99-cp37-cp37m-linux_x86_64.whl
 ```
