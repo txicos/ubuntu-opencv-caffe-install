@@ -37,7 +37,7 @@ In case it is intended to use CUDA, then it will be necessary do install NVIDIA 
 
 ## BOOST
 
-Both Caffe and Dlib require boost to be installed on the system. This tutorial used *version 1.72.0*. After [downloading Boost](https://www.boost.org/users/history/version_1_72_0.html) . Place source code in a directory of your choice and then compiled and install according with [Boost easy installation](https://www.boost.org/doc/libs/1_72_0/more/getting_started/unix-variants.html#easy-build-and-install), summarized below:
+Both Caffe and Dlib require boost to be installed on the system. This tutorial used *version 1.72.0*. After [downloading Boost](https://www.boost.org/users/history/version_1_72_0.html) . Place source code in a directory of your choice and then compile and install Boost according with [Boost easy installation](https://www.boost.org/doc/libs/1_72_0/more/getting_started/unix-variants.html#easy-build-and-install), summarized below:
 
 
 
@@ -50,7 +50,7 @@ Both Caffe and Dlib require boost to be installed on the system. This tutorial u
 Note: make sure to use python version installed in your machine. This tutorial is based on *version 3.7*.
 
 ## 2. Install OpenCV and Contrib Modules
-First we will install dependencies required for our build to work. Other libraries may be necessary, depending of the options you set on cmake.
+First, we will install the dependencies required for our build to work. Other libraries may be necessary, depending on the options you set on cmake.
 
      sudo apt-get install build-essential cmake git unzip pkg-config
      sudo apt-get install libjpeg-dev libpng-dev libtiff-dev
@@ -151,12 +151,12 @@ Check Installation:
 
 ```
 dpkg --get-selections | grep opencv
-opencv-dev					install
-opencv-libs					install
-opencv-licenses				install
-opencv-main					install
-opencv-python				install
-opencv-scripts				install
+opencv-dev             install
+opencv-libs            install
+opencv-licenses        install
+opencv-main            install
+opencv-python          install
+opencv-scripts         install
 ```
 
 Check python installation
@@ -288,7 +288,7 @@ export PYTHONPATH="${PYTHONPATH}:/my/path_to/caffe/distribute/python/caffe
 
 ## 4. DLIB
 
-DLIB is, in fact, a C++ library for image processing and machine learning, but it does have a python API and some important Convolutional Neural Networks ready to be deployed with good results and can be used together with openCV. Let's use the altest version 19.19:
+DLIB is, in fact, a C++ library for image processing and machine learning, but it does have a python API and some important Convolutional Neural Networks ready to be deployed with good results and can be used together with openCV. Let's use the latest version 19.19:
 
 ```
 git clone https://github.com/davisking/dlib
@@ -299,7 +299,7 @@ mkdir install
 
 
 
-Just remember, that we are interested in making it work with CUDA 10.2 (adapat CUDA path according with your system). Passing a flag to NVCC is also required so as the compilation can proceed without error.
+Just remember, that we are interested in making it work with CUDA 10.2 (adapt CUDA path according with your system). Passing a flag to NVCC is also required, so as the compilation can proceed without error.
 
 Since it is intended to create a debian package, it will be configured to install dlib in a local directory
 
